@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeModel;
@@ -24,6 +25,7 @@ public class Principal extends javax.swing.JFrame {
         pm_crud = new javax.swing.JPopupMenu();
         jmi_modificar = new javax.swing.JMenuItem();
         jmi_eliminar = new javax.swing.JMenuItem();
+        jmi_listar = new javax.swing.JMenuItem();
         BG = new javax.swing.JPanel();
         Menu = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -34,8 +36,13 @@ public class Principal extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jt_universos = new javax.swing.JTree();
+        pn_tabla = new javax.swing.JPanel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        tb_atributos = new javax.swing.JTable();
+        pn_lista = new javax.swing.JPanel();
+        tf_personaje = new javax.swing.JTextField();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList<>();
+        jl_atributos = new javax.swing.JList<>();
         pn_agregar = new javax.swing.JPanel();
         jLabel13 = new javax.swing.JLabel();
         jSeparator2 = new javax.swing.JSeparator();
@@ -75,6 +82,14 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         pm_crud.add(jmi_eliminar);
+
+        jmi_listar.setText("Listar");
+        jmi_listar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jmi_listarMouseClicked(evt);
+            }
+        });
+        pm_crud.add(jmi_listar);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -141,7 +156,7 @@ public class Principal extends javax.swing.JFrame {
         jLabel3.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(0, 153, 153));
         jLabel3.setText("Listado de Personajes");
-        pn_listado.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 10, -1, 56));
+        pn_listado.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, 56));
 
         javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("Personajes");
         javax.swing.tree.DefaultMutableTreeNode treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("DC");
@@ -160,16 +175,53 @@ public class Principal extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(jt_universos);
 
-        pn_listado.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 80, 330, -1));
+        pn_listado.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 80, 230, -1));
 
-        jList1.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
-        jScrollPane2.setViewportView(jList1);
+        pn_tabla.setBackground(new java.awt.Color(214, 217, 224));
 
-        pn_listado.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 80, 280, 360));
+        tb_atributos.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null}
+            },
+            new String [] {
+                "Nombre", "Poder", "Debilidad", "Universo", "Fuerza", "Agilidad Física", "Agilidad Mental", "Puntos de vida"
+            }
+        ));
+        jScrollPane3.setViewportView(tb_atributos);
+
+        javax.swing.GroupLayout pn_tablaLayout = new javax.swing.GroupLayout(pn_tabla);
+        pn_tabla.setLayout(pn_tablaLayout);
+        pn_tablaLayout.setHorizontalGroup(
+            pn_tablaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pn_tablaLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 556, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        pn_tablaLayout.setVerticalGroup(
+            pn_tablaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pn_tablaLayout.createSequentialGroup()
+                .addGap(45, 45, 45)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(33, Short.MAX_VALUE))
+        );
+
+        pn_listado.add(pn_tabla, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 0, 580, 500));
+
+        pn_lista.setBackground(new java.awt.Color(214, 217, 224));
+        pn_lista.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        tf_personaje.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        pn_lista.add(tf_personaje, new org.netbeans.lib.awtextra.AbsoluteConstraints(185, 26, 113, 31));
+
+        jScrollPane2.setViewportView(jl_atributos);
+
+        pn_lista.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 110, 350, 360));
+
+        pn_listado.add(pn_lista, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 0, 450, 500));
 
         BG.add(pn_listado, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 0, 860, 500));
 
@@ -299,23 +351,25 @@ public class Principal extends javax.swing.JFrame {
 
     private void jt_universosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jt_universosMouseClicked
         if (evt.isMetaDown()) {
-            //seleccionar un nodo con click derecho
             int row = jt_universos.getClosestRowForLocation(evt.getX(), evt.getY());
             jt_universos.setSelectionRow(row);
             Object v1 = jt_universos.getSelectionPath().getLastPathComponent();
             nodo_seleccionado = (DefaultMutableTreeNode) v1;
 
             if (nodo_seleccionado.getUserObject() instanceof Personaje) {
+                flag = 0;
                 personaje_seleccionado = (Personaje) nodo_seleccionado.getUserObject();
                 pm_crud.show(evt.getComponent(), evt.getX(), evt.getY());
+            } else {
+
             }
         }
     }//GEN-LAST:event_jt_universosMouseClicked
 
     private void jmi_eliminarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jmi_eliminarMouseClicked
         if (jt_universos.getSelectionCount() >= 0) {
-            int response = JOptionPane.showConfirmDialog(this, "Seguro de Eliminar?", "Confirm", 
-                    JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
+            int response = JOptionPane.showConfirmDialog(this, "Seguro de Eliminar?", "Confirm",
+                    JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 
             if (response == JOptionPane.OK_OPTION) {
                 DefaultMutableTreeNode modelo = (DefaultMutableTreeNode) jt_universos.getModel();
@@ -334,6 +388,35 @@ public class Principal extends javax.swing.JFrame {
 //            m.reload();
 //        }
     }//GEN-LAST:event_jmi_eliminarMouseClicked
+
+    private void jmi_listarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jmi_listarMouseClicked
+        DefaultListModel modelo = (DefaultListModel) jl_atributos.getModel();
+
+        if (flag == 0) {
+            modelo.addElement(personaje_seleccionado.toString());
+            tf_personaje.setText(personaje_seleccionado.getNombre());
+        }
+
+        if (flag == 1) {
+            try {
+                tb_atributos.setModel(new javax.swing.table.DefaultTableModel(new Object[][]{},
+                        new String[]{"Nombre", "Poder", "Debilidad", "Universo", "Poder", "Fuerza", "Agilidad Física"}));
+
+                for (Personaje p : personajes) {
+                    if (p.getUniverso().equals(personaje_seleccionado.getUniverso())) {
+                        Object[] row = {p.getNombre(), p.getPoder(), p.getDebilidad(), p.getUniverso(), p.getPoder(), p.getFuerza(), p.getAfisica(),
+                            p.getAmental(), p.getVida()};
+                        DefaultTableModel tabla = (DefaultTableModel) tb_atributos.getModel();
+                        tabla.addRow(row);
+                        tb_atributos.setModel(tabla);
+                    }
+                }
+
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+    }//GEN-LAST:event_jmi_listarMouseClicked
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -370,7 +453,6 @@ public class Principal extends javax.swing.JFrame {
     private void LlenarTree() {
         DefaultTreeModel m = (DefaultTreeModel) jt_universos.getModel();
         DefaultMutableTreeNode raiz = (DefaultMutableTreeNode) m.getRoot();
-        DefaultMutableTreeNode nodo_personaje;
 
         nodo_personaje = new DefaultMutableTreeNode(new Personaje(tf_nombre.getText(), tf_debilidad.getText(),
                 cb_universo.getSelectedItem().toString(), tf_poder.getText(), Double.parseDouble(tf_fuerza.getText()),
@@ -388,7 +470,8 @@ public class Principal extends javax.swing.JFrame {
 
     ArrayList<Personaje> personajes = new ArrayList();
     Personaje personaje_seleccionado;
-    DefaultMutableTreeNode nodo_seleccionado;
+    DefaultMutableTreeNode nodo_seleccionado, nodo_personaje;
+    int flag;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel BG;
@@ -409,9 +492,9 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JList<String> jList1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
@@ -420,17 +503,23 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator7;
     private javax.swing.JSeparator jSeparator9;
     private javax.swing.JSeparator jSeparator_14;
+    private javax.swing.JList<String> jl_atributos;
     private javax.swing.JMenuItem jmi_eliminar;
+    private javax.swing.JMenuItem jmi_listar;
     private javax.swing.JMenuItem jmi_modificar;
     private javax.swing.JTree jt_universos;
     private javax.swing.JPopupMenu pm_crud;
     private javax.swing.JPanel pn_agregar;
+    private javax.swing.JPanel pn_lista;
     private javax.swing.JPanel pn_listado;
+    private javax.swing.JPanel pn_tabla;
+    private javax.swing.JTable tb_atributos;
     private javax.swing.JTextField tf_afisica;
     private javax.swing.JTextField tf_amental;
     private javax.swing.JTextField tf_debilidad;
     private javax.swing.JTextField tf_fuerza;
     private javax.swing.JTextField tf_nombre;
+    private javax.swing.JTextField tf_personaje;
     private javax.swing.JTextField tf_poder;
     private javax.swing.JTextField tf_vida;
     // End of variables declaration//GEN-END:variables

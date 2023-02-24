@@ -1,6 +1,7 @@
 package andreaortez_lab5p2;
 
 public class Personaje {
+
     private String nombre, debilidad, universo, poder;
     private double fuerza, afisica, amental, vida;
 
@@ -82,10 +83,14 @@ public class Personaje {
         this.vida = vida;
     }
 
+    public String toStringNombre() {
+        return nombre;
+    }
+
     @Override
     public String toString() {
-        return nombre + ", debilidad=" + debilidad + ", universo=" + universo + ", poder=" + poder + ", fuerza=" + fuerza + ", afisica=" + afisica + ", amental=" + amental + ", vida=" + vida + '}';
+        return "Debilidad-> " + debilidad + "\nUniverso-> " + universo + "\nPoder-> " + poder + "\nFuerza-> " + fuerza + "\n Agilidad Fisica-> " + afisica
+                + "\nAgilidad Mental-> " + amental + "\nPuntos de vida-> " + vida + '}';
     }
-    
-    
+
 }
