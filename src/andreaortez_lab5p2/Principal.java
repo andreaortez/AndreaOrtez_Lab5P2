@@ -3,6 +3,8 @@ package andreaortez_lab5p2;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import javax.swing.ComboBoxModel;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -16,6 +18,7 @@ public class Principal extends javax.swing.JFrame {
         initComponents();
         pn_agregar.setVisible(false);
         pn_listado.setVisible(false);
+        pn_simulacion.setVisible(false);
     }
 
     @SuppressWarnings("unchecked")
@@ -26,12 +29,21 @@ public class Principal extends javax.swing.JFrame {
         jmi_modificar = new javax.swing.JMenuItem();
         jmi_eliminar = new javax.swing.JMenuItem();
         jmi_listar = new javax.swing.JMenuItem();
+        pm_listar = new javax.swing.JPopupMenu();
+        jmi_tabla = new javax.swing.JMenuItem();
         BG = new javax.swing.JPanel();
         Menu = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        bt_listado = new javax.swing.JButton();
+        bt_simulacion = new javax.swing.JButton();
+        pn_simulacion = new javax.swing.JPanel();
+        cb_jugador1 = new javax.swing.JComboBox<>();
+        cb_jugador2 = new javax.swing.JComboBox<>();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        jl_jugador2 = new javax.swing.JList<>();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        jl_jugador1 = new javax.swing.JList<>();
         pn_listado = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -91,6 +103,14 @@ public class Principal extends javax.swing.JFrame {
         });
         pm_crud.add(jmi_listar);
 
+        jmi_tabla.setText("Listar");
+        jmi_tabla.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jmi_tablaMouseClicked(evt);
+            }
+        });
+        pm_listar.add(jmi_tabla);
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         BG.setBackground(new java.awt.Color(214, 217, 224));
@@ -110,16 +130,21 @@ public class Principal extends javax.swing.JFrame {
             }
         });
 
-        jButton2.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
-        jButton2.setText("Listado de personajes");
-        jButton2.addMouseListener(new java.awt.event.MouseAdapter() {
+        bt_listado.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        bt_listado.setText("Listado de personajes");
+        bt_listado.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jButton2MouseClicked(evt);
+                bt_listadoMouseClicked(evt);
             }
         });
 
-        jButton3.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
-        jButton3.setText("Simulación de Batalla");
+        bt_simulacion.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        bt_simulacion.setText("Simulación de Batalla");
+        bt_simulacion.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                bt_simulacionMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout MenuLayout = new javax.swing.GroupLayout(Menu);
         Menu.setLayout(MenuLayout);
@@ -130,8 +155,8 @@ public class Principal extends javax.swing.JFrame {
                 .addGap(25, 25, 25)
                 .addGroup(MenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(jButton1)
-                    .addComponent(jButton2)
-                    .addComponent(jButton3))
+                    .addComponent(bt_listado)
+                    .addComponent(bt_simulacion))
                 .addContainerGap(27, Short.MAX_VALUE))
         );
         MenuLayout.setVerticalGroup(
@@ -142,13 +167,32 @@ public class Principal extends javax.swing.JFrame {
                 .addGap(92, 92, 92)
                 .addComponent(jButton1)
                 .addGap(68, 68, 68)
-                .addComponent(jButton2)
+                .addComponent(bt_listado)
                 .addGap(84, 84, 84)
-                .addComponent(jButton3)
+                .addComponent(bt_simulacion)
                 .addContainerGap(317, Short.MAX_VALUE))
         );
 
         BG.add(Menu, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 720));
+
+        pn_simulacion.setBackground(new java.awt.Color(214, 217, 224));
+        pn_simulacion.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        cb_jugador1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "DC", "Marvel", "Capcom", "Mortal Kombat" }));
+        pn_simulacion.add(cb_jugador1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, 170, -1));
+
+        cb_jugador2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "DC", "Marvel", "Capcom", "Mortal Kombat" }));
+        pn_simulacion.add(cb_jugador2, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 40, 180, -1));
+
+        jScrollPane4.setViewportView(jl_jugador2);
+
+        pn_simulacion.add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 110, 170, 290));
+
+        jScrollPane5.setViewportView(jl_jugador1);
+
+        pn_simulacion.add(jScrollPane5, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 110, 170, 290));
+
+        BG.add(pn_simulacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 0, 860, 500));
 
         pn_listado.setBackground(new java.awt.Color(214, 217, 224));
         pn_listado.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -318,10 +362,31 @@ public class Principal extends javax.swing.JFrame {
 
     private void bt_agregarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_agregarMouseClicked
         try {
+
+            System.out.println(tf_fuerza.getText());
+            System.out.println(tf_afisica.getText());
+            System.out.println(tf_amental.getText());
+            System.out.println(tf_vida.getText());
             personajes.add(new Personaje(tf_nombre.getText(), tf_debilidad.getText(), cb_universo.getSelectedItem().toString(),
                     tf_poder.getText(), Double.parseDouble(tf_fuerza.getText()),
                     Double.parseDouble(tf_afisica.getText()), Double.parseDouble(tf_amental.getText()),
                     Double.parseDouble(tf_vida.getText())));
+
+            DefaultTreeModel m = (DefaultTreeModel) jt_universos.getModel();
+            DefaultMutableTreeNode raiz = (DefaultMutableTreeNode) m.getRoot();
+
+            nodo_personaje = new DefaultMutableTreeNode(new Personaje(tf_nombre.getText(), tf_debilidad.getText(),
+                    cb_universo.getSelectedItem().toString(), tf_poder.getText(), Double.parseDouble(tf_fuerza.getText()),
+                    Double.parseDouble(tf_afisica.getText()), Double.parseDouble(tf_amental.getText()),
+                    Double.parseDouble(tf_vida.getText())));
+
+            for (int i = 0; i < raiz.getChildCount(); i++) {
+                if (cb_universo.getSelectedItem().toString().equals(raiz.getChildAt(i).toString())) {
+                    ((DefaultMutableTreeNode) raiz.getChildAt(i)).add(nodo_personaje);
+                }
+            }
+
+            m.reload();
 
             tf_nombre.setText("");
             tf_debilidad.setText("");
@@ -332,7 +397,6 @@ public class Principal extends javax.swing.JFrame {
             tf_vida.setText("");
 
             JOptionPane.showMessageDialog(this, "Personaje agregado con éxito");
-            LlenarTree();
         } catch (Exception ex) {
             ex.printStackTrace();
             JOptionPane.showMessageDialog(this, "Ocurrió un error y no se guardaron los datos");
@@ -344,10 +408,12 @@ public class Principal extends javax.swing.JFrame {
         pn_listado.setVisible(false);
     }//GEN-LAST:event_jButton1MouseClicked
 
-    private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
+    private void bt_listadoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_listadoMouseClicked
         pn_listado.setVisible(true);
         pn_agregar.setVisible(false);
-    }//GEN-LAST:event_jButton2MouseClicked
+        pn_lista.setVisible(false);
+        pn_tabla.setVisible(false);
+    }//GEN-LAST:event_bt_listadoMouseClicked
 
     private void jt_universosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jt_universosMouseClicked
         if (evt.isMetaDown()) {
@@ -356,12 +422,11 @@ public class Principal extends javax.swing.JFrame {
             Object v1 = jt_universos.getSelectionPath().getLastPathComponent();
             nodo_seleccionado = (DefaultMutableTreeNode) v1;
 
+            personaje_seleccionado = (Personaje) nodo_seleccionado.getUserObject();
             if (nodo_seleccionado.getUserObject() instanceof Personaje) {
-                flag = 0;
-                personaje_seleccionado = (Personaje) nodo_seleccionado.getUserObject();
                 pm_crud.show(evt.getComponent(), evt.getX(), evt.getY());
             } else {
-
+                pm_listar.show(evt.getComponent(), evt.getX(), evt.getY());
             }
         }
     }//GEN-LAST:event_jt_universosMouseClicked
@@ -391,32 +456,50 @@ public class Principal extends javax.swing.JFrame {
 
     private void jmi_listarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jmi_listarMouseClicked
         DefaultListModel modelo = (DefaultListModel) jl_atributos.getModel();
+        pn_lista.setVisible(true);
+        pn_tabla.setVisible(false);
+        modelo.addElement(personaje_seleccionado.toString());
+        tf_personaje.setText(personaje_seleccionado.getNombre());
+    }//GEN-LAST:event_jmi_listarMouseClicked
 
-        if (flag == 0) {
-            modelo.addElement(personaje_seleccionado.toString());
-            tf_personaje.setText(personaje_seleccionado.getNombre());
-        }
+    private void jmi_tablaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jmi_tablaMouseClicked
+        pn_tabla.setVisible(true);
+        pn_lista.setVisible(false);
+        try {
+            tb_atributos.setModel(new javax.swing.table.DefaultTableModel(new Object[][]{},
+                    new String[]{"Nombre", "Poder", "Debilidad", "Universo", "Poder", "Fuerza", "Agilidad Física"}));
 
-        if (flag == 1) {
-            try {
-                tb_atributos.setModel(new javax.swing.table.DefaultTableModel(new Object[][]{},
-                        new String[]{"Nombre", "Poder", "Debilidad", "Universo", "Poder", "Fuerza", "Agilidad Física"}));
-
-                for (Personaje p : personajes) {
-                    if (p.getUniverso().equals(personaje_seleccionado.getUniverso())) {
-                        Object[] row = {p.getNombre(), p.getPoder(), p.getDebilidad(), p.getUniverso(), p.getPoder(), p.getFuerza(), p.getAfisica(),
-                            p.getAmental(), p.getVida()};
-                        DefaultTableModel tabla = (DefaultTableModel) tb_atributos.getModel();
-                        tabla.addRow(row);
-                        tb_atributos.setModel(tabla);
-                    }
+            for (Personaje p : personajes) {
+                if (p.getUniverso().equals(personaje_seleccionado.getUniverso())) {
+                    Object[] row = {p.getNombre(), p.getPoder(), p.getDebilidad(), p.getUniverso(), p.getPoder(), p.getFuerza(), p.getAfisica(),
+                        p.getAmental(), p.getVida()};
+                    DefaultTableModel tabla = (DefaultTableModel) tb_atributos.getModel();
+                    tabla.addRow(row);
+                    tb_atributos.setModel(tabla);
                 }
+            }
 
-            } catch (Exception ex) {
-                ex.printStackTrace();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }//GEN-LAST:event_jmi_tablaMouseClicked
+
+    private void bt_simulacionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_simulacionMouseClicked
+        pn_simulacion.setVisible(true);
+
+        DefaultListModel modelo1 = (DefaultListModel) jl_jugador1.getModel();
+        DefaultListModel modelo2 = (DefaultListModel) jl_jugador2.getModel();
+
+        for (Personaje p : personajes) {
+            if (p.getUniverso().equals(cb_jugador1.getSelectedItem().toString())) {
+                modelo1.addElement(p.getNombre());
+            }
+            if (p.getUniverso().equals(cb_jugador2.getSelectedItem().toString())) {
+                modelo2.addElement(p.getNombre());
             }
         }
-    }//GEN-LAST:event_jmi_listarMouseClicked
+
+    }//GEN-LAST:event_bt_simulacionMouseClicked
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -450,37 +533,20 @@ public class Principal extends javax.swing.JFrame {
         });
     }
 
-    private void LlenarTree() {
-        DefaultTreeModel m = (DefaultTreeModel) jt_universos.getModel();
-        DefaultMutableTreeNode raiz = (DefaultMutableTreeNode) m.getRoot();
-
-        nodo_personaje = new DefaultMutableTreeNode(new Personaje(tf_nombre.getText(), tf_debilidad.getText(),
-                cb_universo.getSelectedItem().toString(), tf_poder.getText(), Double.parseDouble(tf_fuerza.getText()),
-                Double.parseDouble(tf_afisica.getText()), Double.parseDouble(tf_amental.getText()),
-                Double.parseDouble(tf_vida.getText())));
-
-        for (int i = 0; i < raiz.getChildCount(); i++) {
-            if (cb_universo.getSelectedItem().toString().equals(raiz.getChildAt(i).toString())) {
-                ((DefaultMutableTreeNode) raiz.getChildAt(i)).add(nodo_personaje);
-            }
-        }
-
-        m.reload();
-    }
-
     ArrayList<Personaje> personajes = new ArrayList();
     Personaje personaje_seleccionado;
     DefaultMutableTreeNode nodo_seleccionado, nodo_personaje;
-    int flag;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel BG;
     private javax.swing.JPanel Menu;
     private javax.swing.JButton bt_agregar;
+    private javax.swing.JButton bt_listado;
+    private javax.swing.JButton bt_simulacion;
+    private javax.swing.JComboBox<String> cb_jugador1;
+    private javax.swing.JComboBox<String> cb_jugador2;
     private javax.swing.JComboBox<String> cb_universo;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
@@ -495,6 +561,8 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
@@ -504,14 +572,19 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator9;
     private javax.swing.JSeparator jSeparator_14;
     private javax.swing.JList<String> jl_atributos;
+    private javax.swing.JList<String> jl_jugador1;
+    private javax.swing.JList<String> jl_jugador2;
     private javax.swing.JMenuItem jmi_eliminar;
     private javax.swing.JMenuItem jmi_listar;
     private javax.swing.JMenuItem jmi_modificar;
+    private javax.swing.JMenuItem jmi_tabla;
     private javax.swing.JTree jt_universos;
     private javax.swing.JPopupMenu pm_crud;
+    private javax.swing.JPopupMenu pm_listar;
     private javax.swing.JPanel pn_agregar;
     private javax.swing.JPanel pn_lista;
     private javax.swing.JPanel pn_listado;
+    private javax.swing.JPanel pn_simulacion;
     private javax.swing.JPanel pn_tabla;
     private javax.swing.JTable tb_atributos;
     private javax.swing.JTextField tf_afisica;
