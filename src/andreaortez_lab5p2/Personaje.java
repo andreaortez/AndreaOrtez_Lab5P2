@@ -1,13 +1,13 @@
 package andreaortez_lab5p2;
 
-public class Personajes {
+public class Personaje {
     private String nombre, debilidad, universo, poder;
     private double fuerza, afisica, amental, vida;
 
-    public Personajes() {
+    public Personaje() {
     }
 
-    public Personajes(String nombre, String debilidad, String universo, String poder, double fuerza, double afisica, double amental, double vida) {
+    public Personaje(String nombre, String debilidad, String universo, String poder, double fuerza, double afisica, double amental, double vida) {
         this.nombre = nombre;
         this.debilidad = debilidad;
         this.universo = universo;

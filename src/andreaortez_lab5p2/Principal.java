@@ -7,6 +7,7 @@ import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreeModel;
 
 public class Principal extends javax.swing.JFrame {
 
@@ -20,6 +21,9 @@ public class Principal extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        pm_crud = new javax.swing.JPopupMenu();
+        jmi_modificar = new javax.swing.JMenuItem();
+        jmi_eliminar = new javax.swing.JMenuItem();
         BG = new javax.swing.JPanel();
         Menu = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -59,6 +63,18 @@ public class Principal extends javax.swing.JFrame {
         jSeparator9 = new javax.swing.JSeparator();
         bt_agregar = new javax.swing.JButton();
         cb_universo = new javax.swing.JComboBox<>();
+
+        jmi_modificar.setText("Modificar");
+        pm_crud.add(jmi_modificar);
+
+        jmi_eliminar.setText("Eliminar");
+        jmi_eliminar.setToolTipText("");
+        jmi_eliminar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jmi_eliminarMouseClicked(evt);
+            }
+        });
+        pm_crud.add(jmi_eliminar);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -137,6 +153,11 @@ public class Principal extends javax.swing.JFrame {
         treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("Mortal Kombat");
         treeNode1.add(treeNode2);
         jt_universos.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
+        jt_universos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jt_universosMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jt_universos);
 
         pn_listado.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 80, 330, -1));
@@ -245,7 +266,7 @@ public class Principal extends javax.swing.JFrame {
 
     private void bt_agregarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_agregarMouseClicked
         try {
-            personajes.add(new Personajes(tf_nombre.getText(), tf_debilidad.getText(), cb_universo.getSelectedItem().toString(),
+            personajes.add(new Personaje(tf_nombre.getText(), tf_debilidad.getText(), cb_universo.getSelectedItem().toString(),
                     tf_poder.getText(), Double.parseDouble(tf_fuerza.getText()),
                     Double.parseDouble(tf_afisica.getText()), Double.parseDouble(tf_amental.getText()),
                     Double.parseDouble(tf_vida.getText())));
@@ -275,6 +296,44 @@ public class Principal extends javax.swing.JFrame {
         pn_listado.setVisible(true);
         pn_agregar.setVisible(false);
     }//GEN-LAST:event_jButton2MouseClicked
+
+    private void jt_universosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jt_universosMouseClicked
+        if (evt.isMetaDown()) {
+            //seleccionar un nodo con click derecho
+            int row = jt_universos.getClosestRowForLocation(evt.getX(), evt.getY());
+            jt_universos.setSelectionRow(row);
+            Object v1 = jt_universos.getSelectionPath().getLastPathComponent();
+            nodo_seleccionado = (DefaultMutableTreeNode) v1;
+
+            if (nodo_seleccionado.getUserObject() instanceof Personaje) {
+                personaje_seleccionado = (Personaje) nodo_seleccionado.getUserObject();
+                pm_crud.show(evt.getComponent(), evt.getX(), evt.getY());
+            }
+        }
+    }//GEN-LAST:event_jt_universosMouseClicked
+
+    private void jmi_eliminarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jmi_eliminarMouseClicked
+        if (jt_universos.getSelectionCount() >= 0) {
+            int response = JOptionPane.showConfirmDialog(this, "Seguro de Eliminar?", "Confirm", 
+                    JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
+
+            if (response == JOptionPane.OK_OPTION) {
+                DefaultMutableTreeNode modelo = (DefaultMutableTreeNode) jt_universos.getModel();
+                modelo.remove(jt_universos.getSelectionCount());
+                jt_universos.setModel((TreeModel) modelo);
+                JOptionPane.showMessageDialog(this, "Eliminado exitosamente");
+            }
+        }
+
+//        int response = JOptionPane.showConfirmDialog(this, "Seguro de Eliminar?", "Confirm", JOptionPane.YES_NO_OPTION,
+//                JOptionPane.QUESTION_MESSAGE);
+//
+//        if (response == JOptionPane.OK_OPTION) {
+//            DefaultTreeModel m = (DefaultTreeModel) jt_personas.getModel();
+//            m.removeNodeFromParent(nodo_seleccionado);
+//            m.reload();
+//        }
+    }//GEN-LAST:event_jmi_eliminarMouseClicked
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -312,22 +371,24 @@ public class Principal extends javax.swing.JFrame {
         DefaultTreeModel m = (DefaultTreeModel) jt_universos.getModel();
         DefaultMutableTreeNode raiz = (DefaultMutableTreeNode) m.getRoot();
         DefaultMutableTreeNode nodo_personaje;
-        
-        nodo_personaje = new DefaultMutableTreeNode(new Personajes(tf_nombre.getText(), tf_debilidad.getText(),
+
+        nodo_personaje = new DefaultMutableTreeNode(new Personaje(tf_nombre.getText(), tf_debilidad.getText(),
                 cb_universo.getSelectedItem().toString(), tf_poder.getText(), Double.parseDouble(tf_fuerza.getText()),
                 Double.parseDouble(tf_afisica.getText()), Double.parseDouble(tf_amental.getText()),
                 Double.parseDouble(tf_vida.getText())));
-        
+
         for (int i = 0; i < raiz.getChildCount(); i++) {
             if (cb_universo.getSelectedItem().toString().equals(raiz.getChildAt(i).toString())) {
-                 ((DefaultMutableTreeNode)raiz.getChildAt(i)).add(nodo_personaje);
+                ((DefaultMutableTreeNode) raiz.getChildAt(i)).add(nodo_personaje);
             }
         }
-        
+
         m.reload();
     }
 
-    ArrayList<Personajes> personajes = new ArrayList();
+    ArrayList<Personaje> personajes = new ArrayList();
+    Personaje personaje_seleccionado;
+    DefaultMutableTreeNode nodo_seleccionado;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel BG;
@@ -359,7 +420,10 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator7;
     private javax.swing.JSeparator jSeparator9;
     private javax.swing.JSeparator jSeparator_14;
+    private javax.swing.JMenuItem jmi_eliminar;
+    private javax.swing.JMenuItem jmi_modificar;
     private javax.swing.JTree jt_universos;
+    private javax.swing.JPopupMenu pm_crud;
     private javax.swing.JPanel pn_agregar;
     private javax.swing.JPanel pn_listado;
     private javax.swing.JTextField tf_afisica;
