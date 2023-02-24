@@ -1,13 +1,13 @@
 package andreaortez_lab5p2;
 
 public class Personajes {
-    private String nombre, debilidad, universo;
-    private double poder, fuerza, afisica, amental, vida;
+    private String nombre, debilidad, universo, poder;
+    private double fuerza, afisica, amental, vida;
 
     public Personajes() {
     }
 
-    public Personajes(String nombre, String debilidad, String universo, double poder, double fuerza, double afisica, double amental, double vida) {
+    public Personajes(String nombre, String debilidad, String universo, String poder, double fuerza, double afisica, double amental, double vida) {
         this.nombre = nombre;
         this.debilidad = debilidad;
         this.universo = universo;
@@ -42,11 +42,11 @@ public class Personajes {
         this.universo = universo;
     }
 
-    public double getPoder() {
+    public String getPoder() {
         return poder;
     }
 
-    public void setPoder(double poder) {
+    public void setPoder(String poder) {
         this.poder = poder;
     }
 
