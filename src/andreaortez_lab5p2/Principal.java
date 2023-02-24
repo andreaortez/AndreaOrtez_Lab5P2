@@ -84,29 +84,34 @@ public class Principal extends javax.swing.JFrame {
         cb_universo = new javax.swing.JComboBox<>();
 
         jmi_modificar.setText("Modificar");
+        jmi_modificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmi_modificarActionPerformed(evt);
+            }
+        });
         pm_crud.add(jmi_modificar);
 
         jmi_eliminar.setText("Eliminar");
         jmi_eliminar.setToolTipText("");
-        jmi_eliminar.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jmi_eliminarMouseClicked(evt);
+        jmi_eliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmi_eliminarActionPerformed(evt);
             }
         });
         pm_crud.add(jmi_eliminar);
 
         jmi_listar.setText("Listar");
-        jmi_listar.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jmi_listarMouseClicked(evt);
+        jmi_listar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmi_listarActionPerformed(evt);
             }
         });
         pm_crud.add(jmi_listar);
 
         jmi_tabla.setText("Listar");
-        jmi_tabla.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jmi_tablaMouseClicked(evt);
+        jmi_tabla.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmi_tablaActionPerformed(evt);
             }
         });
         pm_listar.add(jmi_tabla);
@@ -362,11 +367,6 @@ public class Principal extends javax.swing.JFrame {
 
     private void bt_agregarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_agregarMouseClicked
         try {
-
-            System.out.println(tf_fuerza.getText());
-            System.out.println(tf_afisica.getText());
-            System.out.println(tf_amental.getText());
-            System.out.println(tf_vida.getText());
             personajes.add(new Personaje(tf_nombre.getText(), tf_debilidad.getText(), cb_universo.getSelectedItem().toString(),
                     tf_poder.getText(), Double.parseDouble(tf_fuerza.getText()),
                     Double.parseDouble(tf_afisica.getText()), Double.parseDouble(tf_amental.getText()),
@@ -422,67 +422,14 @@ public class Principal extends javax.swing.JFrame {
             Object v1 = jt_universos.getSelectionPath().getLastPathComponent();
             nodo_seleccionado = (DefaultMutableTreeNode) v1;
 
-            personaje_seleccionado = (Personaje) nodo_seleccionado.getUserObject();
             if (nodo_seleccionado.getUserObject() instanceof Personaje) {
+                personaje_seleccionado = (Personaje) nodo_seleccionado.getUserObject();
                 pm_crud.show(evt.getComponent(), evt.getX(), evt.getY());
             } else {
                 pm_listar.show(evt.getComponent(), evt.getX(), evt.getY());
             }
         }
     }//GEN-LAST:event_jt_universosMouseClicked
-
-    private void jmi_eliminarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jmi_eliminarMouseClicked
-        if (jt_universos.getSelectionCount() >= 0) {
-            int response = JOptionPane.showConfirmDialog(this, "Seguro de Eliminar?", "Confirm",
-                    JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-
-            if (response == JOptionPane.OK_OPTION) {
-                DefaultMutableTreeNode modelo = (DefaultMutableTreeNode) jt_universos.getModel();
-                modelo.remove(jt_universos.getSelectionCount());
-                jt_universos.setModel((TreeModel) modelo);
-                JOptionPane.showMessageDialog(this, "Eliminado exitosamente");
-            }
-        }
-
-//        int response = JOptionPane.showConfirmDialog(this, "Seguro de Eliminar?", "Confirm", JOptionPane.YES_NO_OPTION,
-//                JOptionPane.QUESTION_MESSAGE);
-//
-//        if (response == JOptionPane.OK_OPTION) {
-//            DefaultTreeModel m = (DefaultTreeModel) jt_personas.getModel();
-//            m.removeNodeFromParent(nodo_seleccionado);
-//            m.reload();
-//        }
-    }//GEN-LAST:event_jmi_eliminarMouseClicked
-
-    private void jmi_listarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jmi_listarMouseClicked
-        DefaultListModel modelo = (DefaultListModel) jl_atributos.getModel();
-        pn_lista.setVisible(true);
-        pn_tabla.setVisible(false);
-        modelo.addElement(personaje_seleccionado.toString());
-        tf_personaje.setText(personaje_seleccionado.getNombre());
-    }//GEN-LAST:event_jmi_listarMouseClicked
-
-    private void jmi_tablaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jmi_tablaMouseClicked
-        pn_tabla.setVisible(true);
-        pn_lista.setVisible(false);
-        try {
-            tb_atributos.setModel(new javax.swing.table.DefaultTableModel(new Object[][]{},
-                    new String[]{"Nombre", "Poder", "Debilidad", "Universo", "Poder", "Fuerza", "Agilidad Física"}));
-
-            for (Personaje p : personajes) {
-                if (p.getUniverso().equals(personaje_seleccionado.getUniverso())) {
-                    Object[] row = {p.getNombre(), p.getPoder(), p.getDebilidad(), p.getUniverso(), p.getPoder(), p.getFuerza(), p.getAfisica(),
-                        p.getAmental(), p.getVida()};
-                    DefaultTableModel tabla = (DefaultTableModel) tb_atributos.getModel();
-                    tabla.addRow(row);
-                    tb_atributos.setModel(tabla);
-                }
-            }
-
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-    }//GEN-LAST:event_jmi_tablaMouseClicked
 
     private void bt_simulacionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_simulacionMouseClicked
         pn_simulacion.setVisible(true);
@@ -500,6 +447,55 @@ public class Principal extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_bt_simulacionMouseClicked
+
+    private void jmi_modificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_modificarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jmi_modificarActionPerformed
+
+    private void jmi_eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_eliminarActionPerformed
+        if (jt_universos.getSelectionCount() >= 0) {
+            int response = JOptionPane.showConfirmDialog(this, "Seguro de Eliminar?", "Confirm",
+                    JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+
+            if (response == JOptionPane.OK_OPTION) {
+                DefaultMutableTreeNode modelo = (DefaultMutableTreeNode) jt_universos.getModel();
+                modelo.remove(jt_universos.getSelectionCount());
+                jt_universos.setModel((TreeModel) modelo);
+                JOptionPane.showMessageDialog(this, "Eliminado exitosamente");
+            }
+        }
+    }//GEN-LAST:event_jmi_eliminarActionPerformed
+
+    private void jmi_listarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_listarActionPerformed
+        pn_lista.setVisible(true);
+        pn_tabla.setVisible(false);
+        
+        DefaultListModel modelo = (DefaultListModel) jl_atributos.getModel();
+        modelo.addElement(personaje_seleccionado.toString());
+        tf_personaje.setText(personaje_seleccionado.getNombre());
+    }//GEN-LAST:event_jmi_listarActionPerformed
+
+    private void jmi_tablaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_tablaActionPerformed
+        pn_tabla.setVisible(true);
+        pn_lista.setVisible(false);
+        try {
+            tb_atributos.setModel(new javax.swing.table.DefaultTableModel(new Object[][]{},
+                    new String[]{"Nombre", "Poder", "Debilidad", "Universo", "Poder", "Fuerza", "Agilidad Física", "Agilidad Mental", "Poder de Vida"}));
+
+            for (Personaje p : personajes) {
+                if (p.getUniverso().equals(personaje_seleccionado.getUniverso())) {
+                    Object[] row = {p.getNombre(), p.getPoder(), p.getDebilidad(), p.getUniverso(), p.getPoder(), p.getFuerza(), p.getAfisica(),
+                        p.getAmental(), p.getVida()};
+                    DefaultTableModel tabla = (DefaultTableModel) tb_atributos.getModel();
+                    tabla.addRow(row);
+                    tb_atributos.setModel(tabla);
+                }
+            }
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }//GEN-LAST:event_jmi_tablaActionPerformed
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */

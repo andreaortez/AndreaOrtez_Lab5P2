@@ -12,6 +12,9 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Modificar"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jmi_modificarActionPerformed"/>
+          </Events>
         </MenuItem>
         <MenuItem class="javax.swing.JMenuItem" name="jmi_eliminar">
           <Properties>
@@ -19,7 +22,7 @@
             <Property name="toolTipText" type="java.lang.String" value=""/>
           </Properties>
           <Events>
-            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jmi_eliminarMouseClicked"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jmi_eliminarActionPerformed"/>
           </Events>
         </MenuItem>
         <MenuItem class="javax.swing.JMenuItem" name="jmi_listar">
@@ -27,7 +30,7 @@
             <Property name="text" type="java.lang.String" value="Listar"/>
           </Properties>
           <Events>
-            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jmi_listarMouseClicked"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jmi_listarActionPerformed"/>
           </Events>
         </MenuItem>
       </SubComponents>
@@ -43,7 +46,7 @@
             <Property name="text" type="java.lang.String" value="Listar"/>
           </Properties>
           <Events>
-            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jmi_tablaMouseClicked"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jmi_tablaActionPerformed"/>
           </Events>
         </MenuItem>
       </SubComponents>

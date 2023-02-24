@@ -84,13 +84,13 @@ public class Personaje {
     }
 
     public String toStringNombre() {
-        return nombre;
+        return "Debilidad-> " + debilidad + "\nUniverso-> " + universo + "\nPoder-> " + poder + "\nFuerza-> " + fuerza + "\n Agilidad Fisica-> " + afisica
+                + "\nAgilidad Mental-> " + amental + "\nPuntos de vida-> " + vida + '}';
     }
 
     @Override
     public String toString() {
-        return "Debilidad-> " + debilidad + "\nUniverso-> " + universo + "\nPoder-> " + poder + "\nFuerza-> " + fuerza + "\n Agilidad Fisica-> " + afisica
-                + "\nAgilidad Mental-> " + amental + "\nPuntos de vida-> " + vida + '}';
+        return nombre;
     }
 
 }
