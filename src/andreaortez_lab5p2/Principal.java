@@ -1,12 +1,8 @@
 package andreaortez_lab5p2;
 
 import java.awt.Color;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Random;
-import javax.swing.ComboBoxModel;
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -251,7 +247,7 @@ public class Principal extends javax.swing.JFrame {
         pn_batalla.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         tf_jugador.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
-        pn_batalla.add(tf_jugador, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 20, 90, 20));
+        pn_batalla.add(tf_jugador, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 20, 90, 30));
 
         ta_ataques.setColumns(20);
         ta_ataques.setRows(5);
@@ -614,6 +610,7 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_cb_jugador2ItemStateChanged
 
     private void bt_batallaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_batallaMouseClicked
+        ta_ataques.removeAll();
         pn_batalla.setVisible(true);
 
         for (Personaje p : personajes) {
@@ -634,12 +631,12 @@ public class Principal extends javax.swing.JFrame {
         double puntos = jugador_actual.getVida();
         double puntosF = puntos * 1.15;
         jugador_actual.setVida(puntosF);
-        
-        String text = jugador_actual + " usó Ataque de Resistencia"
+
+        String text = jugador_actual.getNombre() + " usó Ataque de Resistencia"
                 + "\nSu vida actual " + puntosF;
-        
+
         ta_ataques.setForeground(tf_jugador.getBackground());
-        ta_ataques.append(text);
+        ta_ataques.append(text + "\n");
 
         turno = 1;
         Jugador();
@@ -647,21 +644,27 @@ public class Principal extends javax.swing.JFrame {
 
     private void bt_mentalMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_mentalMouseClicked
         Rival();
-
+        double ataque;
         int prob = 1 + random.nextInt(100);
 
         if (prob <= 15) { //ataque crítico
             double mental = jugador_actual.getAmental();
-            double ataque = mental / (1 / 3);
+            ataque = mental / (1 / 3);
             rival.setVida(rival.getVida() - ataque * 2);
         } else {//ataque normal
             double mental = jugador_actual.getAmental();
-            double ataque = mental / (1 / 3);
+            ataque = mental / (1 / 3);
             rival.setVida(rival.getVida() - ataque);
         }
 
+        String text = jugador_actual.getNombre() + " usó Ataque Mental"
+                + "\nSe quitó " + ataque + " puntos a la vida del rival";
+
+        ta_ataques.setForeground(tf_jugador.getBackground());
+        ta_ataques.append(text + "\n");
+
         if (rival.getVida() <= 0) {
-            JOptionPane.showMessageDialog(this, jugador_actual + " ganó el juego");
+            JOptionPane.showMessageDialog(this, jugador_actual.getNombre() + " ganó el juego");
             pn_batalla.setVisible(false);
         } else {
             Jugador();
@@ -676,7 +679,7 @@ public class Principal extends javax.swing.JFrame {
         double ataque = fisico / 2;
         rival.setVida(rival.getVida() - ataque);
 
-        String text = jugador_actual + " usó Ataque Físico"
+        String text = jugador_actual.getNombre() + " usó Ataque Físico"
                 + "\nSe quitó " + ataque + " vida al rival";
 
         int prob = 1 + random.nextInt(100);
@@ -687,12 +690,12 @@ public class Principal extends javax.swing.JFrame {
             aux = "Se le aumentó " + aumento + " a la vida de " + jugador_actual.getNombre() + ", dejandola en " + jugador_actual.getVida();
             text += "\n" + aux;
         }
-        
+
         ta_ataques.setForeground(tf_jugador.getBackground());
-        ta_ataques.append(text);
+        ta_ataques.append(text + "\n");
 
         if (rival.getVida() <= 0) {
-            JOptionPane.showMessageDialog(this, jugador_actual + " ganó el juego");
+            JOptionPane.showMessageDialog(this, jugador_actual.getNombre() + " ganó el juego");
             pn_batalla.setVisible(false);
         } else {
             Jugador();
