@@ -83,7 +83,7 @@ public class Personaje {
         this.vida = vida;
     }
 
-    public String toStringNombre() {
+    public String toStringAtributos() {
         return "Debilidad-> " + debilidad + "\nUniverso-> " + universo + "\nPoder-> " + poder + "\nFuerza-> " + fuerza + "\n Agilidad Fisica-> " + afisica
                 + "\nAgilidad Mental-> " + amental + "\nPuntos de vida-> " + vida + '}';
     }

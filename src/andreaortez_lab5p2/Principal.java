@@ -44,6 +44,10 @@ public class Principal extends javax.swing.JFrame {
         jl_jugador2 = new javax.swing.JList<>();
         jScrollPane5 = new javax.swing.JScrollPane();
         jl_jugador1 = new javax.swing.JList<>();
+        jButton2 = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
         pn_listado = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -184,18 +188,44 @@ public class Principal extends javax.swing.JFrame {
         pn_simulacion.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         cb_jugador1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "DC", "Marvel", "Capcom", "Mortal Kombat" }));
-        pn_simulacion.add(cb_jugador1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, 170, -1));
+        cb_jugador1.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cb_jugador1ItemStateChanged(evt);
+            }
+        });
+        pn_simulacion.add(cb_jugador1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 60, 170, -1));
 
         cb_jugador2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "DC", "Marvel", "Capcom", "Mortal Kombat" }));
-        pn_simulacion.add(cb_jugador2, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 40, 180, -1));
+        cb_jugador2.setSelectedIndex(1);
+        pn_simulacion.add(cb_jugador2, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 60, 180, -1));
 
+        jl_jugador2.setModel(new DefaultListModel());
         jScrollPane4.setViewportView(jl_jugador2);
 
-        pn_simulacion.add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 110, 170, 290));
+        pn_simulacion.add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 140, 180, 290));
 
+        jl_jugador1.setModel(new DefaultListModel());
         jScrollPane5.setViewportView(jl_jugador1);
 
-        pn_simulacion.add(jScrollPane5, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 110, 170, 290));
+        pn_simulacion.add(jScrollPane5, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 140, 170, 290));
+
+        jButton2.setText("Batalla");
+        pn_simulacion.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 460, -1, -1));
+
+        jLabel4.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel4.setText("Jugador 2");
+        pn_simulacion.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 110, -1, -1));
+
+        jLabel5.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel5.setText("Jugador 1");
+        pn_simulacion.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 110, -1, -1));
+
+        jLabel6.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(0, 153, 153));
+        jLabel6.setText("Simulación");
+        pn_simulacion.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, -1, 56));
 
         BG.add(pn_simulacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 0, 860, 500));
 
@@ -266,6 +296,7 @@ public class Principal extends javax.swing.JFrame {
         tf_personaje.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         pn_lista.add(tf_personaje, new org.netbeans.lib.awtextra.AbsoluteConstraints(185, 26, 113, 31));
 
+        jl_atributos.setModel(new DefaultListModel());
         jScrollPane2.setViewportView(jl_atributos);
 
         pn_lista.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 110, 350, 360));
@@ -445,7 +476,6 @@ public class Principal extends javax.swing.JFrame {
                 modelo2.addElement(p.getNombre());
             }
         }
-
     }//GEN-LAST:event_bt_simulacionMouseClicked
 
     private void jmi_modificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_modificarActionPerformed
@@ -458,8 +488,8 @@ public class Principal extends javax.swing.JFrame {
                     JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 
             if (response == JOptionPane.OK_OPTION) {
-                DefaultMutableTreeNode modelo = (DefaultMutableTreeNode) jt_universos.getModel();
-                modelo.remove(jt_universos.getSelectionCount());
+                DefaultTreeModel modelo = (DefaultTreeModel) jt_universos.getModel();
+                modelo.removeNodeFromParent(nodo_seleccionado);
                 jt_universos.setModel((TreeModel) modelo);
                 JOptionPane.showMessageDialog(this, "Eliminado exitosamente");
             }
@@ -469,9 +499,10 @@ public class Principal extends javax.swing.JFrame {
     private void jmi_listarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_listarActionPerformed
         pn_lista.setVisible(true);
         pn_tabla.setVisible(false);
-        
+
         DefaultListModel modelo = (DefaultListModel) jl_atributos.getModel();
-        modelo.addElement(personaje_seleccionado.toString());
+        modelo.addElement(personaje_seleccionado.toStringAtributos());
+        jl_atributos.setModel(modelo);
         tf_personaje.setText(personaje_seleccionado.getNombre());
     }//GEN-LAST:event_jmi_listarActionPerformed
 
@@ -496,6 +527,15 @@ public class Principal extends javax.swing.JFrame {
             ex.printStackTrace();
         }
     }//GEN-LAST:event_jmi_tablaActionPerformed
+
+    private void cb_jugador1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cb_jugador1ItemStateChanged
+        if (evt.getStateChange() == 2) {
+            Personaje p = (Personaje) cb_jugador1.getSelectedItem();
+            DefaultListModel modelo = (DefaultListModel) jl_jugador1.getModel();
+            modelo.addElement(p.getNombre());
+            jl_jugador1.setModel(modelo);
+        }
+    }//GEN-LAST:event_cb_jugador1ItemStateChanged
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -543,6 +583,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> cb_jugador2;
     private javax.swing.JComboBox<String> cb_universo;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
@@ -554,6 +595,9 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
