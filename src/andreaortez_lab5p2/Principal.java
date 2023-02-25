@@ -534,7 +534,7 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_bt_simulacionMouseClicked
 
     private void jmi_modificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_modificarActionPerformed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_jmi_modificarActionPerformed
 
     private void jmi_eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_eliminarActionPerformed
@@ -649,11 +649,12 @@ public class Principal extends javax.swing.JFrame {
 
         if (prob <= 15) { //ataque crítico
             double mental = jugador_actual.getAmental();
-            ataque = mental / (1 / 3);
-            rival.setVida(rival.getVida() - ataque * 2);
+            
+            ataque = mental / .33;
+            rival.setVida(rival.getVida() - (ataque * 2));
         } else {//ataque normal
             double mental = jugador_actual.getAmental();
-            ataque = mental / (1 / 3);
+            ataque = mental / .33;
             rival.setVida(rival.getVida() - ataque);
         }
 
@@ -685,7 +686,7 @@ public class Principal extends javax.swing.JFrame {
         int prob = 1 + random.nextInt(100);
         if (prob <= 8) {
             double vida = jugador_actual.getVida();
-            double aumento = vida / (1 / 4);
+            double aumento = vida / .25;
             jugador_actual.setVida(vida + aumento);
             aux = "Se le aumentó " + aumento + " a la vida de " + jugador_actual.getNombre() + ", dejandola en " + jugador_actual.getVida();
             text += "\n" + aux;
