@@ -608,12 +608,16 @@ public class Principal extends javax.swing.JFrame {
 
     private void bt_batallaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_batallaMouseClicked
         pn_batalla.setVisible(true);
-        j1 = jl_jugador1.getSelectedValue();
-        j2 = jl_jugador2.getSelectedValue();
+//        j1 = jl_jugador1.getSelectedValue();
+//        j2 = jl_jugador2.getSelectedValue();
 
         for (Personaje p : personajes) {
             if (p.getNombre().equals(jl_jugador1.getSelectedValue())) {
+                jugador1 = p;
                 jugador_actual = p;
+            }
+            if (p.getNombre().equals(jl_jugador2.getSelectedValue())) {
+                jugador2 = p;
             }
         }
 
@@ -622,32 +626,26 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_bt_batallaMouseClicked
 
     private void bt_resistenciaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_resistenciaMouseClicked
-        for (Personaje p : personajes) {
-            if (p.getNombre().equals(jugador)) {
-                double puntos = p.getVida();
-                double puntosF = puntos * 1.15;
-                p.setVida(puntosF);
-            }
-        }
+        double puntos = jugador_actual.getVida();
+        double puntosF = puntos * 1.15;
+        jugador_actual.setVida(puntosF);
+
         Jugador();
     }//GEN-LAST:event_bt_resistenciaMouseClicked
 
     private void bt_mentalMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_mentalMouseClicked
-        String rival;
-        if (jugador_actual.getNombre().equals(j1)) {
-            rival = j2;
+        Personaje rival;
+        if (jugador_actual.getNombre().equals(jugador1)) {
+            rival = jugador2;
         } else {
-            rival = j1;
+            rival = jugador1;
         }
 
         double mental = jugador_actual.getAmental();
         double ataque = mental / (1 / 3);
+        rival.setVida(rival.getVida() - ataque);
 
-        for (Personaje p : personajes) {
-            if (p.getNombre().equals(rival)) {
-                p.setVida(p.getVida() - ataque);
-            }
-        }
+        Jugador();
     }//GEN-LAST:event_bt_mentalMouseClicked
 
     public static void main(String args[]) {
@@ -691,30 +689,21 @@ public class Principal extends javax.swing.JFrame {
     }
 
     private void Jugador() {
-        if (tf_jugador.getText().equals(j1)) {
-            jugador = j2;
-            tf_jugador.setText(j2);
+        if (tf_jugador.getText().equals(jugador1.getNombre())) {
+            jugador_actual = jugador2;
+            tf_jugador.setText(jugador_actual.getNombre());
             tf_jugador.setBackground(Color.CYAN);
-        } else {
-            jugador = j1;
-            tf_jugador.setText(j1);
+        } else if (tf_jugador.getText().equals(jugador2.getNombre())) {
+            jugador_actual = jugador1;
+            tf_jugador.setText(jugador_actual.getNombre());
             tf_jugador.setBackground(Color.GREEN);
-        }
-
-        for (Personaje p : personajes) {
-            if (p.getNombre().equals(jugador_actual.getNombre())) {
-                jugador_actual = p;
-            }
-            if (p.getNombre().equals(jl_jugador2.getSelectedValue())) {
-                jugador_actual = p;
-            }
         }
     }
 
     ArrayList<Personaje> personajes = new ArrayList();
-    Personaje personaje_seleccionado, jugador_actual;
+    Personaje personaje_seleccionado, jugador_actual, jugador1, jugador2;
     DefaultMutableTreeNode nodo_seleccionado, nodo_personaje;
-    String j1, j2, jugador;
+    String j1, j2;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel BG;
