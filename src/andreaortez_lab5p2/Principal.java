@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Random;
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
@@ -20,6 +21,7 @@ public class Principal extends javax.swing.JFrame {
         pn_agregar.setVisible(false);
         pn_listado.setVisible(false);
         pn_simulacion.setVisible(false);
+        ta_ataques.setEditable(false);
     }
 
     @SuppressWarnings("unchecked")
@@ -52,7 +54,7 @@ public class Principal extends javax.swing.JFrame {
         pn_batalla = new javax.swing.JPanel();
         tf_jugador = new javax.swing.JTextField();
         jScrollPane6 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        ta_ataques = new javax.swing.JTextArea();
         bt_resistencia = new javax.swing.JButton();
         bt_mental = new javax.swing.JButton();
         bt_fisico = new javax.swing.JButton();
@@ -251,9 +253,9 @@ public class Principal extends javax.swing.JFrame {
         tf_jugador.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         pn_batalla.add(tf_jugador, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 20, 90, 20));
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane6.setViewportView(jTextArea1);
+        ta_ataques.setColumns(20);
+        ta_ataques.setRows(5);
+        jScrollPane6.setViewportView(ta_ataques);
 
         pn_batalla.add(jScrollPane6, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 70, 370, 360));
 
@@ -274,6 +276,11 @@ public class Principal extends javax.swing.JFrame {
         pn_batalla.add(bt_mental, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 460, -1, -1));
 
         bt_fisico.setText("Físico");
+        bt_fisico.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                bt_fisicoMouseClicked(evt);
+            }
+        });
         pn_batalla.add(bt_fisico, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 460, -1, -1));
 
         pn_simulacion.add(pn_batalla, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 0, 430, 500));
@@ -608,8 +615,6 @@ public class Principal extends javax.swing.JFrame {
 
     private void bt_batallaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_batallaMouseClicked
         pn_batalla.setVisible(true);
-//        j1 = jl_jugador1.getSelectedValue();
-//        j2 = jl_jugador2.getSelectedValue();
 
         for (Personaje p : personajes) {
             if (p.getNombre().equals(jl_jugador1.getSelectedValue())) {
@@ -629,24 +634,70 @@ public class Principal extends javax.swing.JFrame {
         double puntos = jugador_actual.getVida();
         double puntosF = puntos * 1.15;
         jugador_actual.setVida(puntosF);
+        
+        String text = jugador_actual + " usó Ataque de Resistencia"
+                + "\nSu vida actual " + puntosF;
+        
+        ta_ataques.setForeground(tf_jugador.getBackground());
+        ta_ataques.append(text);
 
+        turno = 1;
         Jugador();
     }//GEN-LAST:event_bt_resistenciaMouseClicked
 
     private void bt_mentalMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_mentalMouseClicked
-        Personaje rival;
-        if (jugador_actual.getNombre().equals(jugador1)) {
-            rival = jugador2;
-        } else {
-            rival = jugador1;
+        Rival();
+
+        int prob = 1 + random.nextInt(100);
+
+        if (prob <= 15) { //ataque crítico
+            double mental = jugador_actual.getAmental();
+            double ataque = mental / (1 / 3);
+            rival.setVida(rival.getVida() - ataque * 2);
+        } else {//ataque normal
+            double mental = jugador_actual.getAmental();
+            double ataque = mental / (1 / 3);
+            rival.setVida(rival.getVida() - ataque);
         }
 
-        double mental = jugador_actual.getAmental();
-        double ataque = mental / (1 / 3);
+        if (rival.getVida() <= 0) {
+            JOptionPane.showMessageDialog(this, jugador_actual + " ganó el juego");
+            pn_batalla.setVisible(false);
+        } else {
+            Jugador();
+        }
+    }//GEN-LAST:event_bt_mentalMouseClicked
+
+    private void bt_fisicoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_fisicoMouseClicked
+        Rival();
+        String aux;
+
+        double fisico = jugador_actual.getAfisica();
+        double ataque = fisico / 2;
         rival.setVida(rival.getVida() - ataque);
 
-        Jugador();
-    }//GEN-LAST:event_bt_mentalMouseClicked
+        String text = jugador_actual + " usó Ataque Físico"
+                + "\nSe quitó " + ataque + " vida al rival";
+
+        int prob = 1 + random.nextInt(100);
+        if (prob <= 8) {
+            double vida = jugador_actual.getVida();
+            double aumento = vida / (1 / 4);
+            jugador_actual.setVida(vida + aumento);
+            aux = "Se le aumentó " + aumento + " a la vida de " + jugador_actual.getNombre() + ", dejandola en " + jugador_actual.getVida();
+            text += "\n" + aux;
+        }
+        
+        ta_ataques.setForeground(tf_jugador.getBackground());
+        ta_ataques.append(text);
+
+        if (rival.getVida() <= 0) {
+            JOptionPane.showMessageDialog(this, jugador_actual + " ganó el juego");
+            pn_batalla.setVisible(false);
+        } else {
+            Jugador();
+        }
+    }//GEN-LAST:event_bt_fisicoMouseClicked
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -689,21 +740,48 @@ public class Principal extends javax.swing.JFrame {
     }
 
     private void Jugador() {
-        if (tf_jugador.getText().equals(jugador1.getNombre())) {
-            jugador_actual = jugador2;
-            tf_jugador.setText(jugador_actual.getNombre());
-            tf_jugador.setBackground(Color.CYAN);
-        } else if (tf_jugador.getText().equals(jugador2.getNombre())) {
-            jugador_actual = jugador1;
-            tf_jugador.setText(jugador_actual.getNombre());
-            tf_jugador.setBackground(Color.GREEN);
+        if (turno == 0) {
+            if (tf_jugador.getText().equals(jugador1.getNombre())) {
+                jugador_actual = jugador2;
+                tf_jugador.setText(jugador_actual.getNombre());
+                tf_jugador.setBackground(Color.CYAN);
+            } else if (tf_jugador.getText().equals(jugador2.getNombre())) {
+                jugador_actual = jugador1;
+                tf_jugador.setText(jugador_actual.getNombre());
+                tf_jugador.setBackground(Color.GREEN);
+            }
+        } else {
+            if (turno == 1) {
+                if (tf_jugador.getText().equals(jugador1.getNombre())) {
+                    jugador_actual = jugador2;
+                    tf_jugador.setText(jugador_actual.getNombre());
+                    tf_jugador.setBackground(Color.CYAN);
+                } else if (tf_jugador.getText().equals(jugador2.getNombre())) {
+                    jugador_actual = jugador1;
+                    tf_jugador.setText(jugador_actual.getNombre());
+                    tf_jugador.setBackground(Color.GREEN);
+                }
+                turno = 2;
+            } else {
+                turno = 0;
+            }
+        }
+
+    }
+
+    private void Rival() {
+        if (jugador_actual.getNombre().equals(jugador1)) {
+            rival = jugador2;
+        } else {
+            rival = jugador1;
         }
     }
 
     ArrayList<Personaje> personajes = new ArrayList();
-    Personaje personaje_seleccionado, jugador_actual, jugador1, jugador2;
+    Personaje personaje_seleccionado, jugador_actual, jugador1, jugador2, rival;
     DefaultMutableTreeNode nodo_seleccionado, nodo_personaje;
-    String j1, j2;
+    Random random = new Random();
+    int turno = 0;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel BG;
@@ -747,7 +825,6 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator7;
     private javax.swing.JSeparator jSeparator9;
     private javax.swing.JSeparator jSeparator_14;
-    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JList<String> jl_atributos;
     private javax.swing.JList<String> jl_jugador1;
     private javax.swing.JList<String> jl_jugador2;
@@ -764,6 +841,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JPanel pn_listado;
     private javax.swing.JPanel pn_simulacion;
     private javax.swing.JPanel pn_tabla;
+    private javax.swing.JTextArea ta_ataques;
     private javax.swing.JTable tb_atributos;
     private javax.swing.JTextField tf_afisica;
     private javax.swing.JTextField tf_amental;
