@@ -197,6 +197,11 @@ public class Principal extends javax.swing.JFrame {
 
         cb_jugador2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "DC", "Marvel", "Capcom", "Mortal Kombat" }));
         cb_jugador2.setSelectedIndex(1);
+        cb_jugador2.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cb_jugador2ItemStateChanged(evt);
+            }
+        });
         pn_simulacion.add(cb_jugador2, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 60, 180, -1));
 
         jl_jugador2.setModel(new DefaultListModel());
@@ -530,12 +535,29 @@ public class Principal extends javax.swing.JFrame {
 
     private void cb_jugador1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cb_jugador1ItemStateChanged
         if (evt.getStateChange() == 2) {
-            Personaje p = (Personaje) cb_jugador1.getSelectedItem();
             DefaultListModel modelo = (DefaultListModel) jl_jugador1.getModel();
-            modelo.addElement(p.getNombre());
-            jl_jugador1.setModel(modelo);
+            modelo.removeAllElements();
+
+            for (Personaje p : personajes) {
+                if (p.getUniverso().equals(cb_jugador1.getSelectedItem().toString())) {
+                    modelo.addElement(p.getNombre());
+                }
+            }
         }
     }//GEN-LAST:event_cb_jugador1ItemStateChanged
+
+    private void cb_jugador2ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cb_jugador2ItemStateChanged
+        if (evt.getStateChange() == 2) {
+            DefaultListModel modelo = (DefaultListModel) jl_jugador2.getModel();
+            modelo.removeAllElements();
+
+            for (Personaje p : personajes) {
+                if (p.getUniverso().equals(cb_jugador2.getSelectedItem().toString())) {
+                    modelo.addElement(p.getNombre());
+                }
+            }
+        }
+    }//GEN-LAST:event_cb_jugador2ItemStateChanged
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
